@@ -41,10 +41,6 @@ public class UrlService {
         return shortUrl;
     }
 
-    public Optional<UrlEntity> decodeUrl(String shortUrl) {
-        return urlRepository.findByShortUrl(shortUrl);
-    }
-
     public void markAsClicked(UrlEntity url) {
         url.setClicked(true);
         urlRepository.save(url);
