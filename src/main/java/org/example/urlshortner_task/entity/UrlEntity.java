@@ -1,33 +1,27 @@
 package org.example.urlshortner_task.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+@Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "urls")
-@Entity
 public class UrlEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "original_url")
+    private String longUrl;
+
     @Column(name = "shortened_url")
-    public String shortenedUrl;
+    private String shortUrl;
 
-    public boolean clicked;
+    @Column(name = "clicked")
+    private boolean clicked;
 
-    public UrlEntity(String shortenedUrl, boolean clicked) {
-        this.shortenedUrl = shortenedUrl;
-        this.clicked = false;
-    }
 }
