@@ -23,5 +23,4 @@ public class UrlEntity {
 
     @Column(name = "clicked")
     private boolean clicked;
-
 }
