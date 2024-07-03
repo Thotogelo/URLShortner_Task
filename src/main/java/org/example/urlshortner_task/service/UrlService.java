@@ -1,5 +1,6 @@
 package org.example.urlshortner_task.service;
 
+import org.example.urlshortner_task.entity.RequestUrl;
 import org.example.urlshortner_task.entity.UrlEntity;
 import org.example.urlshortner_task.repository.UrlRepository;
 import org.springframework.stereotype.Service;
@@ -19,22 +20,22 @@ public class UrlService {
         this.urlRepository = urlRepository;
     }
 
-    public String encodeUrl(String longUrl) {
+    public String shortenUrl(RequestUrl requestUrl) {
 
-        Optional<UrlEntity> existingShortUrl = urlRepository.findByShortUrl(longUrl);
+        Optional<UrlEntity> existingShortUrl = urlRepository.findByShortUrl(requestUrl.url());
         if (existingShortUrl.isPresent()) {
             markAsClicked(existingShortUrl.get());
             return existingShortUrl.get().getLongUrl();
         }
 
-        Optional<UrlEntity> existingLongUrl = urlRepository.findByLongUrl(longUrl);
+        Optional<UrlEntity> existingLongUrl = urlRepository.findByLongUrl(requestUrl.url());
         if (existingLongUrl.isPresent()) {
             return existingLongUrl.get().getShortUrl();
         }
 
-        String shortUrl = generateShortUrl(longUrl);
+        String shortUrl = generateShortUrl(requestUrl.url());
         UrlEntity url = new UrlEntity();
-        url.setLongUrl(longUrl);
+        url.setLongUrl(requestUrl.url());
         url.setShortUrl(shortUrl);
         url.setClicked(false);
         urlRepository.save(url);

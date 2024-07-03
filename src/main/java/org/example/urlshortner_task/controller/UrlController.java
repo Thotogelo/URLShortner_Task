@@ -1,7 +1,7 @@
 package org.example.urlshortner_task.controller;
 
 
-import org.example.urlshortner_task.entity.UrlDTO;
+import org.example.urlshortner_task.entity.RequestUrl;
 import org.example.urlshortner_task.service.UrlService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ public class UrlController {
     }
 
     @PostMapping("/shorten")
-    public String shortenUrl(@RequestBody UrlDTO longUrl) {
-        return urlService.encodeUrl(longUrl.longUrl());
+    public String saveUrl(@RequestBody RequestUrl requestUrl) {
+        return urlService.shortenUrl(requestUrl);
     }
 }
