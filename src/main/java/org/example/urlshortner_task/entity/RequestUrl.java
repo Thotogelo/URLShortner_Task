@@ -1,4 +1,6 @@
 package org.example.urlshortner_task.entity;
 
-public record RequestUrl(String url) {
+import jakarta.validation.constraints.NotBlank;
+
+public record RequestUrl(@NotBlank String url) {
 }
