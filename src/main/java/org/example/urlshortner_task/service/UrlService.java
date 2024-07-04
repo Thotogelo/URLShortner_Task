@@ -36,10 +36,10 @@ public class UrlService {
         return saveUrl(requestUrl.url());
     }
 
-    private String saveUrl(String originalUrl) {
-        String shortUrl = generateShortUrl(originalUrl);
+    private String saveUrl(String requestUrl) {
+        String shortUrl = generateShortUrl(requestUrl);
         UrlEntity newUrl = new UrlEntity();
-        newUrl.setLongUrl(originalUrl);
+        newUrl.setLongUrl(requestUrl);
         newUrl.setShortUrl(shortUrl);
         newUrl.setClicked(false);
         urlRepository.save(newUrl);
