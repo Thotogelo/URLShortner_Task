@@ -4,6 +4,7 @@ package org.example.urlshortner_task.controller;
 import jakarta.validation.Valid;
 import org.example.urlshortner_task.entity.RequestUrl;
 import org.example.urlshortner_task.service.UrlService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class UrlController {
     }
 
     @PostMapping("/shorten")
-    public String saveUrl(@Valid @RequestBody RequestUrl requestUrl) {
-        return urlService.shortenUrl(requestUrl);
+    public ResponseEntity<String> saveUrl(@Valid @RequestBody RequestUrl requestUrl) {
+        return ResponseEntity.ok(urlService.shortenUrl(requestUrl));
     }
 }
