@@ -41,13 +41,13 @@ public class UrlService {
         UrlEntity newUrl = new UrlEntity();
         newUrl.setLongUrl(requestUrl);
         newUrl.setShortUrl(shortUrl);
-        newUrl.setClicked(false);
+        newUrl.setClicked(newUrl.getClicked() + 1);
         urlRepository.save(newUrl);
         return shortUrl;
     }
 
     private void markAsClicked(UrlEntity url) {
-        url.setClicked(true);
+        url.setClicked(url.getClicked() + 1);
         urlRepository.save(url);
     }
 

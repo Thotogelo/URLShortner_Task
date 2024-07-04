@@ -22,5 +22,5 @@ public class UrlEntity {
     private String shortUrl;
 
     @Column(name = "clicked")
-    private boolean clicked;
+    private int clicked;
 }
