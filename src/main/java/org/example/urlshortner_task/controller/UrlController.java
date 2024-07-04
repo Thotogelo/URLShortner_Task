@@ -22,6 +22,6 @@ public class UrlController {
 
     @PostMapping("/shorten")
     public ResponseEntity<String> saveUrl(@Valid @RequestBody RequestUrl requestUrl) {
-        return ResponseEntity.ok(urlService.shortenUrl(requestUrl));
+        return ResponseEntity.ok(urlService.resolveOrShortenUrl(requestUrl));
     }
 }

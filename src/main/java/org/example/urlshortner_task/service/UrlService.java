@@ -20,7 +20,7 @@ public class UrlService {
         this.urlRepository = urlRepository;
     }
 
-    public String shortenUrl(RequestUrl requestUrl) {
+    public String resolveOrShortenUrl(RequestUrl requestUrl) {
 
         Optional<UrlEntity> existingShortUrl = urlRepository.findByShortUrl(requestUrl.url());
         if (existingShortUrl.isPresent()) {
@@ -33,16 +33,20 @@ public class UrlService {
             return existingLongUrl.get().getShortUrl();
         }
 
-        String shortUrl = generateShortUrl(requestUrl.url());
-        UrlEntity url = new UrlEntity();
-        url.setLongUrl(requestUrl.url());
-        url.setShortUrl(shortUrl);
-        url.setClicked(false);
-        urlRepository.save(url);
+        return saveUrl(requestUrl.url());
+    }
+
+    private String saveUrl(String originalUrl) {
+        String shortUrl = generateShortUrl(originalUrl);
+        UrlEntity newUrl = new UrlEntity();
+        newUrl.setLongUrl(originalUrl);
+        newUrl.setShortUrl(shortUrl);
+        newUrl.setClicked(false);
+        urlRepository.save(newUrl);
         return shortUrl;
     }
 
-    public void markAsClicked(UrlEntity url) {
+    private void markAsClicked(UrlEntity url) {
         url.setClicked(true);
         urlRepository.save(url);
     }

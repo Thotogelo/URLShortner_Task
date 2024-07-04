@@ -43,7 +43,7 @@ public class UrlControllerTest {
     //    TODO Parameterize the method
     @Test
     void shouldReturnShortUrlForExistingLongUrl() throws Exception {
-        when(urlService.shortenUrl(requestUrl)).thenReturn(shortUrl);
+        when(urlService.resolveOrShortenUrl(requestUrl)).thenReturn(shortUrl);
 
         mockMvc.perform(post(postUrl)
                         .content("""
@@ -59,7 +59,7 @@ public class UrlControllerTest {
     void shouldReturnLongUrlForGivenShortUrl() throws Exception {
 //        Pass short url, then return long url
         requestUrl = new RequestUrl(shortUrl);
-        when(urlService.shortenUrl(requestUrl)).thenReturn(longUrl);
+        when(urlService.resolveOrShortenUrl(requestUrl)).thenReturn(longUrl);
 
         mockMvc.perform(post(postUrl)
                         .content("""
