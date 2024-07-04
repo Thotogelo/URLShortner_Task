@@ -21,6 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UrlControllerTest {
 
+    public static final String shortUrl = "aHR0cHM";
+    public static final String longUrl = "https://chatgpt.com/c/fdfdf-07db-4d98-a61c-3ce2319a8f73";
+    private static final String postUrl = "http://localhost:8080/api/urls/shorten";
+
     @MockBean
     private UrlService urlService;
 
@@ -30,22 +34,39 @@ public class UrlControllerTest {
     private RequestService requestBuilder;
 
     private RequestUrl requestUrl;
-    private final String postUrl = "http://localhost:8080/api/urls/shorten";
 
     @BeforeEach
     void setUp() {
-        requestUrl = new RequestUrl("https://chatgpt.com/c/fdfdf-07db-4d98-a61c-3ce2319a8f73");
+        requestUrl = new RequestUrl(longUrl);
     }
 
-//    TODO Parameterize the method
+    //    TODO Parameterize the method
     @Test
-    void givenExistingLongUrlReturnShortUrl() throws Exception {
-        when(urlService.shortenUrl(requestUrl)).thenReturn("aHR0cHM");
+    void shouldReturnShortUrlForExistingLongUrl() throws Exception {
+        when(urlService.shortenUrl(requestUrl)).thenReturn(shortUrl);
 
         mockMvc.perform(post(postUrl)
-                        .content("{\"url\":\"https://chatgpt.com/c/fdfdf-07db-4d98-a61c-3ce2319a8f73\"}")
+                        .content("""
+                                {"url":"https://chatgpt.com/c/fdfdf-07db-4d98-a61c-3ce2319a8f73"}
+                                """)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("aHR0cHM"));
+                .andExpect(content().string(shortUrl));
+    }
+
+//    TODO
+    @Test
+    void shouldReturnLongUrlForGivenShortUrl() throws Exception {
+//        Pass short url, then return long url
+        requestUrl = new RequestUrl(shortUrl);
+        when(urlService.shortenUrl(requestUrl)).thenReturn(longUrl);
+
+        mockMvc.perform(post(postUrl)
+                        .content("""
+                                {"url":"aHR0cHM"}
+                                """)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(longUrl));
     }
 }
